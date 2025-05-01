@@ -1,0 +1,8 @@
+import os
+import streamlit as st
+
+def local_css(filename):
+    path = os.path.join(os.path.dirname(__file__), filename)
+    with open(path) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+        
