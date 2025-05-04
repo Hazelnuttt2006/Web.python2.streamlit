@@ -3,6 +3,7 @@ from streamlit_extras.colored_header import colored_header
 from streamlit_extras.stoggle import stoggle
 from streamlit_extras.let_it_rain import rain
 import base64
+import os  
 
 def show():
     st.subheader("Group F415")
@@ -38,6 +39,9 @@ def show():
     )
 
     def circular_image(image_path, width=200):
+        if not os.path.exists(image_path):
+            return f"<p style='color:red;'>Image {image_path} not found!</p>"
+
         with open(image_path, "rb") as f:
             data = f.read()
         encoded = base64.b64encode(data).decode()
