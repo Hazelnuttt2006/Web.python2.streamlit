@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit_extras.colored_header import colored_header
 from streamlit_extras.stoggle import stoggle
 from streamlit_extras.let_it_rain import rain
 import base64
@@ -7,7 +6,7 @@ import os
 
 def show():
     st.subheader("Group F415")
-    st.title("PYTHON 2 - BUSINESS IT 2 😊:")
+    st.title("👩‍💻PYTHON 2 - BUSINESS IT 2 😊:")
     st.write("""
     We are a group of business students passionate about understanding global economic dynamics.
     For our analysis, we focused on a dataset detailing the distribution of wealth among billionaires in 2023.
@@ -23,22 +22,26 @@ def show():
     2. Le Ho Thu Giang - 106240409
 
     3. Luu Ngoc Phuong Khanh - 106240260
-    
+
     4. Nguyen Ngoc Thao An - 103240210
         """,
     )
 
     st.write("[Accessing our dataset >](https://docs.google.com/spreadsheets/d/1STYDa2xArV1B6D1R9hZSHRp4lSp1o8welEsCN62zfVk/edit?usp=sharing)")
 
-    rain(emoji="🔍", font_size=54, falling_speed=5, animation_length="3")
+    rain(emoji="🪙", font_size=54, falling_speed=5, animation_length="3")
 
-    colored_header(
-        label="Group members introduction",
-        description="Get to know about our group",
-        color_name="light-blue-70",
-    )
+    # --- Custom Header with green color ---
+    st.markdown("""
+    <div style="margin-top: 30px;">
+        <div style="height: 8px; background-color: #FFC200; width: 100%; border-radius: 4px;"></div>
+        <h3 style="margin-top: 10px;">👧 Group members introduction</h3>
+        <p style="color: gray;">Get to know about our group</p>
+    </div>
+""", unsafe_allow_html=True)
 
-    def circular_image(image_path, width=200):
+
+    def circular_image(image_path, width=180):
         if not os.path.exists(image_path):
             return f"<p style='color:red;'>Image {image_path} not found!</p>"
 
@@ -47,7 +50,7 @@ def show():
         encoded = base64.b64encode(data).decode()
         return f'''
             <img src="data:image/png;base64,{encoded}" 
-                 style="border-radius: 50%; width: {width}px; height: {width}px; object-fit: cover;">
+                 style="border-radius: 50%; width: {width}px; height: {width}px; object-fit: cover; display: block; margin-left: auto; margin-right: auto;">
         '''
 
     members = [
@@ -81,16 +84,19 @@ def show():
         },
     ]
 
-    for member in members:
-        left, right = st.columns([1, 2.5])
-        with left:
+    # Display members in a single horizontal row
+    cols = st.columns(4)
+    for col, member in zip(cols, members):
+        with col:
             st.markdown(circular_image(member["img"]), unsafe_allow_html=True)
-        with right:
-            st.subheader(f"**Full name: {member['name']}**")
-            st.write(f"Student ID: {member['id']}")
-            st.write(f"Email: {member['email']}")
-            st.write(f"Major: {member['major']}")
-        st.write(" ")
+            st.markdown(f"""
+            <div style='text-align: center;'>
+                <strong>{member['name']}</strong><br>
+                ID: {member['id']}<br>
+                <a href="mailto:{member['email']}">{member['email']}</a><br>
+                Major: {member['major']}
+            </div>
+            """, unsafe_allow_html=True)
 
     st.markdown("---")
     st.subheader("💬 Leave us your message!")
