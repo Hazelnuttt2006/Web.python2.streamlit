@@ -5,21 +5,32 @@ from streamlit_extras.colored_header import colored_header
 from annotated_text import annotated_text
 
 def show():
-
     st.subheader("Business IT 2 | Python 2")
     st.title(':blue[Billionaires Statistics - 2023]')
 
     st.write(" ")
-
 
     colored_header(
         label="An introduction 💡",
         description="Overview of Billionaires around the world in 2023",
         color_name="light-blue-70",
     )
-    
-    single_column = st.container()
-    with single_column:
+
+    # Section with GIF on the left and annotated text on the right
+    col1, col2 = st.columns([1, 2])  # Adjust width ratio as needed
+
+    with col1:
+        # Ensure that the path is correct or use an online link if necessary
+        st.markdown(
+            """
+            <div style="text-align: center;">
+                <img src="Thiết-kế-chưa-có-tên-_1_.gif" alt="piggy bank" width="180">
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    with col2:
         annotated_text(
             ("Billionaires", "💸", "#8CC0DE"),
             ", are individuals whose net worth is at least 1 billion USD. In 2023, the global billionaire population saw significant growth despite economic challenges. The dataset provides insights into the distribution of billionaires across countries and their net worth.",
@@ -44,7 +55,6 @@ def show():
             "Over 2,700 billionaires globally, with an aggregate net worth surpassing trillions of dollars, represent industries ranging from technology to healthcare."
         )
 
-
     st.subheader("Billionaires by Country (2023)")
 
     try:
@@ -60,16 +70,7 @@ def show():
 
     country_info = pd.DataFrame(country_info)
 
-    st.write(load.columns)
-    st.write(country_info.columns)
-
-
-    st.write(load.head())
-    st.write(country_info.head())
-
-
     load = load.dropna(subset=['country'])
-
 
     df1 = load.merge(country_info, on='country', how='left')
 
@@ -78,7 +79,6 @@ def show():
 
     df1 = df1.merge(billionaire_count, on='country', how='left')
 
- 
     st.subheader("Billionaire Count by Country")
     fig1 = px.choropleth(
         df1,
@@ -90,7 +90,6 @@ def show():
         hover_name='country',
         hover_data=["country", "Billionaire_Count"]
     )
-
     st.plotly_chart(fig1)
 
     st.subheader("Billionaire Net Worth by Country")
@@ -105,8 +104,9 @@ def show():
         hover_name='country',
         hover_data=["country", "finalWorth"]
     )
-
     st.plotly_chart(fig2)
+
+
 
 
 
