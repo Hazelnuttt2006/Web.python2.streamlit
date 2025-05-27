@@ -21,7 +21,7 @@ df = load_data()
 
 def show():
     # --------- Age Group Wealth Analysis ---------
-    st.title("\U0001F4B0 Which Age Group Holds the Most Wealth?")
+    st.title("💰 Which Age Group Holds the Most Wealth?")
 
     st.markdown(
     """
@@ -41,7 +41,7 @@ def show():
             ("largest", "*total*", "#FFD700"),
             " share of total billionaire net worth, underscoring the long-term nature of wealth accumulation.",
             "\n- ",
-            ("Net worth grows consistently with age", "\U0001F4C8", "#FFD700"),
+            ("Net worth grows consistently with age", "📈", "#FFD700"),
             ", with sharp increases observed ",
             ("after age", "**40**", "#FFD700"),
             ".",
@@ -70,7 +70,7 @@ def show():
     df["Age Group"] = df["Age"].apply(get_age_group)
 
     age_groups = ["All", "Under 20", "21–30", "31–40", "41–50", "51–60", "61+"]
-    selected_group = st.selectbox("\U0001F3AF Select Age Group", age_groups)
+    selected_group = st.selectbox("🎯 Select Age Group", age_groups)
 
     filtered_df = df.copy()
     if selected_group != "All":
@@ -79,15 +79,16 @@ def show():
     filtered_df = filtered_df.dropna(subset=["NetWorth"])
 
     top10 = filtered_df.sort_values(by="NetWorth", ascending=False).head(10)
+
     top10 = top10.assign(Rank=top10['NetWorth'].rank(ascending=False, method='min').astype(int))
 
     key_insights = {
-        "Under 20":"✅ **Under 20 Age Group**\nBillionaires under 20 are a rare and unique group, often driven by innovation in technology, gaming, or even social media platforms...",
-        "21–30": "✅ **21-30 Age Group**\nThis youngest billionaire group represents a small portion of total wealth but signals a promising rise of tech-savvy entrepreneurs...",
-        "31–40": "✅ **31-40 Age Group**\nBillionaires aged 31–40 begin to show more influence on the overall wealth landscape...",
-        "41–50": "✅ **41-50 Age Group**\nThis age group marks a transition toward wealth consolidation...",
-        "51–60": "✅ **51-60 Age Group**\nWith decades of experience, billionaires in their 50s often have diversified portfolios and stable positions...",
-        "61+": "✅ **60+ Age Group**\nThis is the most affluent age group, holding the largest share of total billionaire wealth..."
+        "Under 20":"✅ **Under 20 Age Group**\nBillionaires under 20 are a rare and unique group, often driven by innovation in technology, gaming, or even social media platforms. Despite their youth, many of these individuals have rapidly built their fortunes through successful startups, viral online businesses, or early investments in emerging sectors like cryptocurrency. While they represent a small portion of the total billionaire wealth, their potential for future growth is immense. The under-20 billionaires are early adopters of digital technologies and demonstrate the growing role of youth in wealth creation.",
+        "21–30": "✅ **21-30 Age Group**\nThis youngest billionaire group represents a small portion of total wealth but signals a promising rise of tech-savvy entrepreneurs. Many in this age group built their fortune from innovative startups, cryptocurrency, or software platforms. Although their combined net worth is significantly lower than older groups, the pace at which some members accumulated wealth is noteworthy. This group reflects the growing impact of digital innovation on wealth creation.",
+        "31–40": "✅ **31-40 Age Group**\nBillionaires aged 31–40 begin to show more influence on the overall wealth landscape. With more experience and maturing businesses, many of them scaled startups into global enterprises. Technology remains the dominant sector here, with a few notable figures making up large portions of this group's net worth. While still behind older groups in total wealth, they show strong upward momentum.",
+        "41–50": "✅ **41-50 Age Group**\nThis age group marks a transition toward wealth consolidation. Many individuals here are seasoned entrepreneurs or executives in both tech and traditional industries. Compared to younger age brackets, the total net worth sees a noticeable increase, as businesses founded earlier now yield substantial returns. The wealth gap between this group and those in their 30s highlights how time significantly contributes to financial growth.",
+        "51–60": "✅ **51-60 Age Group**\nWith decades of experience, billionaires in their 50s often have diversified portfolios and stable positions in established industries. This group begins to approach the peak in terms of wealth accumulation. Many are long-time business owners or key shareholders in multinational firms. Their wealth reflects a combination of strategic investments, legacy holdings, and accumulated growth over time.",
+        "61+": "✅ **61+ Age Group**\nThis group holds the largest share of total billionaire wealth, reflecting a lifetime of business development, inheritance, and investment gains. Many members are founders or heirs of long-standing companies, and their wealth is often diversified globally. Their financial influence shapes industries and markets across the world."
     }
 
     if selected_group != "All":
@@ -114,9 +115,9 @@ def show():
         st.plotly_chart(fig, use_container_width=True)
     with col2:
         if selected_group == "All":
-            st.subheader("\U0001F4CA Top 10 Billionaires")
+            st.subheader("📊 Top 10 Billionaires")
         else:
-            st.subheader(f"\U0001F4CA Top Billionaires in {selected_group} Group")
+            st.subheader(f"📊 Top Billionaires in {selected_group} Group")
 
         st.dataframe(
             top10[["Rank", "Name", "Age", "NetWorth"]].reset_index(drop=True),
@@ -126,10 +127,14 @@ def show():
     st.markdown("---")
 
     # --------- Gender Ratio Analysis ---------
-    st.title("\U0001F30D How Are Billionaires Around The World Distributed By Gender?")
+    st.title("🌍 How Are Billionaires Around The World Distributed By Gender?")
 
     st.markdown("""
-    This dashboard analyzes the gender distribution of worldwide billionaires based on 2023 data...
+    This dashboard analyzes the gender distribution of worldwide billionaires based on 2023 data. The interactive analysis allows users to explore the proportion of male and female billionaires by selecting any country, offering a clear picture of the gender ratio within the ultra-wealthy population.
+
+    - **Male billionaires vastly outnumber female billionaires** across nearly all countries — over **85–90%** of billionaires are male, underscoring a global trend of male-dominated wealth.  
+    - **Developed vs. Emerging economies** show different gender dynamics, with developed countries often having slightly higher female representation and more diverse wealth sources.  
+    - **The gender gap is slowly narrowing** in younger billionaire generations, suggesting that as access to education and capital improves, gender disparities in wealth accumulation may decrease over time.
     """)
 
     countries = df['country'].value_counts().index.tolist()
@@ -179,7 +184,6 @@ def show():
 
     fig_lollipop = go.Figure()
 
-    # Add stems
     fig_lollipop.add_trace(go.Scatter(
         x=filtered_df['count'],
         y=filtered_df['industries'],
@@ -188,7 +192,6 @@ def show():
         showlegend=False
     ))
 
-    # Add markers
     fig_lollipop.add_trace(go.Scatter(
         x=filtered_df['count'],
         y=filtered_df['industries'],
@@ -209,7 +212,6 @@ def show():
 
     st.subheader(f"📋 Industry Table - Self-Made Billionaires: {selected_self_made}")
 
-    # Loại bỏ cột 'selfMade' trước khi hiển thị bảng
     filtered_df_display = filtered_df.drop(columns=['selfMade']).reset_index(drop=True)
 
     st.dataframe(filtered_df_display, use_container_width=True)
