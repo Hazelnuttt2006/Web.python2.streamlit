@@ -5,47 +5,56 @@ from streamlit_extras.colored_header import colored_header
 from annotated_text import annotated_text
 
 def show():
+    # Custom styling
+    st.markdown("""
+        <style>
+            h1, .stTitle, .stSubheader {
+                color: #140f00 !important;
+            }
+            .custom-header {
+                font-size: 24px;
+                font-weight: bold;
+                color: #140f00;
+                margin: 10px 0 5px 0;
+            }
+            .custom-subtitle {
+                font-size: 18px;
+                font-weight: bold;
+                margin: 0 0 10px 0;
+            }
+            hr.custom-hr {
+                border: 2px solid gold;
+                margin: 10px 0;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+
     st.subheader("Business IT 2 | Python 2")
-    st.title(':blue[Billionaires Statistics - 2023]')
+    st.title('Billionaires Statistics - 2023')
 
     st.write(" ")
 
     colored_header(
         label="An introduction 💡",
         description="Overview of Billionaires around the world in 2023",
-        color_name="light-blue-70",
+        color_name="yellow-70",
     )
 
-    # Section with GIF on the left and annotated text on the right
-    col1, col2 = st.columns([1, 2])  # Adjust width ratio as needed
-
-    with col1:
-        # Ensure that the path is correct or use an online link if necessary
-        st.markdown(
-            """
-            <div style="text-align: center;">
-                <img src="Thiết-kế-chưa-có-tên-_1_.gif" alt="piggy bank" width="180">
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-    with col2:
-        annotated_text(
-            ("Billionaires", "💸", "#8CC0DE"),
-            ", are individuals whose net worth is at least 1 billion USD. In 2023, the global billionaire population saw significant growth despite economic challenges. The dataset provides insights into the distribution of billionaires across countries and their net worth.",
-            ("Country-wise", "🌍", "#8CC0DE"),
-            ", billionaires' data reveals how wealth is concentrated in various regions."
-        )
-        annotated_text(
-            "The United States has the highest number of billionaires, followed by China, and a variety of emerging markets are also seeing a rise in billionaires.",
-            "Billionaires' wealth is often tied to industries such as technology, finance, and healthcare."
-        )
+    annotated_text(
+        ("Billionaires", "💸", "#FFC200"),
+        ", are individuals whose net worth is at least 1 billion USD. In 2023, the global billionaire population saw significant growth despite economic challenges. The dataset provides insights into the distribution of billionaires across countries and their net worth.",
+        ("Country-wise", "🌍", "#FFC200"),
+        ", billionaires' data reveals how wealth is concentrated in various regions."
+    )
+    annotated_text(
+        "The United States has the highest number of billionaires, followed by China, and a variety of emerging markets are also seeing a rise in billionaires.",
+        "Billionaires' wealth is often tied to industries such as technology, finance, and healthcare."
+    )
 
     colored_header(
         label="The Billionaire Economy 💰",
         description="Understanding the distribution and net worth of billionaires globally in 2023",
-        color_name="blue-70",
+        color_name="yellow-70",
     )
 
     single_column2 = st.container()
@@ -55,7 +64,10 @@ def show():
             "Over 2,700 billionaires globally, with an aggregate net worth surpassing trillions of dollars, represent industries ranging from technology to healthcare."
         )
 
-    st.subheader("Billionaires by Country (2023)")
+    # ---------- Billionaire Count by Country ----------
+    st.markdown("<div class='custom-header'>Billionaires by Country (2023)</div>", unsafe_allow_html=True)
+    st.markdown("<hr class='custom-hr'>", unsafe_allow_html=True)
+    st.markdown("<div class='custom-subtitle'>Billionaire Count by Country</div>", unsafe_allow_html=True)
 
     try:
         load = pd.read_csv('Billionaires Statistics Dataset.csv')
@@ -69,7 +81,6 @@ def show():
     }
 
     country_info = pd.DataFrame(country_info)
-
     load = load.dropna(subset=['country'])
 
     df1 = load.merge(country_info, on='country', how='left')
@@ -79,7 +90,6 @@ def show():
 
     df1 = df1.merge(billionaire_count, on='country', how='left')
 
-    st.subheader("Billionaire Count by Country")
     fig1 = px.choropleth(
         df1,
         locations='country_code',
@@ -92,7 +102,11 @@ def show():
     )
     st.plotly_chart(fig1)
 
-    st.subheader("Billionaire Net Worth by Country")
+    # ---------- Billionaire Net Worth by Country ----------
+    st.markdown("<div class='custom-header' style='margin-top: 30px;'>Billionaire Net Worth by Country</div>", unsafe_allow_html=True)
+    st.markdown("<hr class='custom-hr'>", unsafe_allow_html=True)
+    st.markdown("<div class='custom-subtitle'>Billionaire Net Worth Distribution in 2023</div>", unsafe_allow_html=True)
+
     fig2 = px.choropleth(
         df1,
         locations='country_code',
@@ -100,28 +114,7 @@ def show():
         color='finalWorth',
         color_continuous_scale="Viridis_r",
         labels={'finalWorth': 'Net Worth (in Billion USD)'},
-        title="Billionaire Net Worth Distribution in 2023",
         hover_name='country',
         hover_data=["country", "finalWorth"]
     )
     st.plotly_chart(fig2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

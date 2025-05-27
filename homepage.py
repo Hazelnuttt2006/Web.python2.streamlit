@@ -31,7 +31,6 @@ def show():
 
     rain(emoji="🪙", font_size=54, falling_speed=5, animation_length="3")
 
-    # --- Custom Header with green color ---
     st.markdown("""
     <div style="margin-top: 30px;">
         <div style="height: 8px; background-color: #FFC200; width: 100%; border-radius: 4px;"></div>
