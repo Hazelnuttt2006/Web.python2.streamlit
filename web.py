@@ -15,7 +15,7 @@ pages = {
     "facts": "👋 Billionaires and key facts",
     "dataset": "📚 Learn about our dataset",
     "code": "🧑‍💻 Explore our analysis code",
-    "starts": "💰 Global billionaire statistics"
+    "starts": "📈Global billionaire statistics"
 }
 
 

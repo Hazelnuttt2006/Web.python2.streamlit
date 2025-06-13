@@ -168,7 +168,7 @@ def show():
 
     st.markdown("---")
 
-    # --------- Lollipop Chart: Industry vs Self-Made ---------
+# --------- Lollipop Chart: Industry vs Self-Made ---------
     st.title("🏭 Are Self-Made Billionaires Concentrated in Certain Industries?")
 
     st.markdown("""
